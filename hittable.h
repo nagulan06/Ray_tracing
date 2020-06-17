@@ -112,8 +112,7 @@ public:
 	bool hit(const ray& r, double t_min, double t_max, hit_record& rec) const override
 	{
 		bool hit_anywhere = false;
-		double closest_so_far = t_max;
-		hit_record temp_rec;
+		
 		for (const auto& obj : m_list)
 		{
 			if (obj->hit(r, t_min, t_max, rec))
