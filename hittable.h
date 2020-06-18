@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <vector>
+#include <cmath>
 #include "vec3.h"
 #include "ray.h"
 

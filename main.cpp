@@ -11,60 +11,6 @@
 #include "hittable.h"
 #include "camera.h"
 
-color diffuse_color(const ray& r, const hittable_list& world_list, int depth)
-{
-	// Base case
-	// If ray bounce limit is exceeded, return.
-	if (depth <= 0)
-		return color(0, 0, 0);
-
-	vec3 unit_vec = unit(r.direction());
-	double bg_scale = (unit_vec.y() + 1.0) * 0.5;
-
-	hit_record rec;
-	double t_min = 0;
-	double t_max = infinity;
-	bool intersect = world_list.hit(r, t_min, t_max, rec);
-	if (intersect)
-	{
-		point3 point_on_unit_circle = rec.hit_point + rec.normal + random_unit_vector();
-		ray reflected(rec.hit_point, point_on_unit_circle - rec.hit_point);
-		return 0.5 * diffuse_color(reflected, world_list, depth - 1);
-	}
-	else
-	{
-		// If not hit, return the pixel color for the background
-		// calculate the pixel value using lerp - Between blue and white. 
-		color pixel = (1.0 - bg_scale) * color(1.0, 1.0, 1.0) + bg_scale * color(0.5, 0.7, 1.0);
-		return pixel;
-	}
-}
-
-color normal_color(const ray& r, const hittable_list& world_list)
-{
-	vec3 unit_vec = unit(r.direction());
-	// t lies between 0 and 1 and it is scaled based on the 'y' value of the unit vector
-	double bg_scale = (unit_vec.y() + 1.0) * 0.5;
-
-	hit_record rec;
-	double t_min = 0;
-	double t_max = infinity;
-	bool intersect = world_list.hit(r, t_min, t_max, rec);
-	if (intersect)
-	{
-		// return pixel color with respect to the unit normal vector
-		vec3 normal_vec = rec.normal;
-		//return 0.5 * color(normal_vec.x() + 1, normal_vec.y() + 1, normal_vec.z() + 1);
-		return 0.25 * ((1.0 - bg_scale) * color(1.0, 1.0, 1.0) + bg_scale * color(0.5, 0.7, 1.0));
-	}
-	else
-	{
-		// If not hit, return the pixel color for the background
-		// calculate the pixel value using lerp - Between blue and white. 
-		color pixel = (1.0 - bg_scale) * color(1.0, 1.0, 1.0) + bg_scale * color(0.5, 0.7, 1.0);
-		return pixel;
-	}
-}
 
 int main()
 {
@@ -86,6 +32,7 @@ int main()
 	std::shared_ptr<hittable> ground = std::make_shared<sphere>(point3(0, -100.5, -1), 100);
 	hittable_list world_list;
 	world_list.clear();
+
 	// The order in which objects are pushed into the vector matters when they overlap
 	// The last pushed object can overlap all those previously pushed.
 	world_list.add(ground);

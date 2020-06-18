@@ -64,6 +64,9 @@ vec3 random_in_unit_sphere();
 // Return a random unit vector
 vec3 random_unit_vector();
 
+// 
+vec3 random_in_hemisphere(const vec3& normal);
+
 typedef vec3 color;
 typedef vec3 point3;    
 

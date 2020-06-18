@@ -198,3 +198,11 @@ vec3 random_unit_vector()
 
     return vec3(r * cos(theta), r * sin(theta), z);
 }
+
+vec3 random_in_hemisphere(const vec3& normal)
+{
+    vec3 rand = random_unit_vector();
+    if (dot(normal, rand) < 0)
+        return -rand;
+    return rand;
+}
