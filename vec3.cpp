@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include "vec3.h"
+#include "utility.h"
 
 double vec3::x() const { return m_coord[0]; }
 double vec3::y() const { return m_coord[1]; }
@@ -162,4 +163,38 @@ vec3 cross(const vec3& u, const vec3& v)
 vec3 unit(const vec3& vec)
 {
     return vec / vec.length();
+}
+
+vec3 vec3::random()
+{
+    return vec3(random_double(), random_double(), random_double());
+}
+
+vec3 vec3::random(double min, double max)
+{
+    return vec3(random_double(min, max), random_double(min,max), random_double(min,max));
+}
+
+vec3 random_in_unit_sphere()
+{
+    vec3 rand = vec3::random(-1, 1);
+    while (1)
+    {
+        if (rand.length() > 1)
+            continue;
+        return rand;
+    }
+}
+
+#warning TODO: try a simple method
+vec3 random_unit_vector()
+{
+    // Cylindrical coordinates - r, theta, z
+    // x^2 + y^2 = r^2 ; 0 <= theta <= 2*pi
+    // x = r*cos(theta),  y = r*sin(theta),  z as it is in cartesian  
+    double theta = random_double(0, 2 * pi);
+    double z = random_double(-1, 1);
+    double r = sqrt(1 - z * z);
+
+    return vec3(r * cos(theta), r * sin(theta), z);
 }

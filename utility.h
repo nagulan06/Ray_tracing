@@ -15,11 +15,11 @@ inline double degrees_to_radians(double degrees)
 }
 
 // Generates a random double value
-inline double random_double()
+inline double random_double(double min = 0.0, double max = 1.0)
 {
 	static std::random_device rd;
 	static std::mt19937 gen(rd());
-	static std::uniform_real_distribution<double> dis(0.0, 1.0);
+	static std::uniform_real_distribution<double> dis(min, max);
 	
 	return dis(gen);
 }

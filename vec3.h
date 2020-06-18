@@ -31,6 +31,10 @@ public:
     // Print the coordinates of the vector
     void print();
 
+    // Return a vector with random values
+    static vec3 random();
+    static vec3 random(double min, double max);
+
 };
 
 // Add, Subtract, Multiply and Divide two vectors
@@ -53,6 +57,12 @@ vec3 cross(const vec3&, const vec3&);
 
 // Unit vector
 vec3 unit(const vec3&);
+
+// Return a random vector within a unit sphere
+vec3 random_in_unit_sphere();
+
+// Return a random unit vector
+vec3 random_unit_vector();
 
 typedef vec3 color;
 typedef vec3 point3;    

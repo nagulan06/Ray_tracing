@@ -34,6 +34,7 @@ public:
 		// ray (origin, direction)
 		return ray(origin, lower_left_corner + hor * horizontal + ver * vertical - origin);
 	}
+
 };
 
 #endif
