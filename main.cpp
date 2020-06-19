@@ -10,6 +10,7 @@
 #include "ray.h"
 #include "hittable.h"
 #include "camera.h"
+#include "material.h"
 
 
 int main()
@@ -22,20 +23,39 @@ int main()
 	// Set value for Number of samples per pixel - This is used for antialiasing
 	const int num_samples = 100;
 
-	int max_depth = 50;
+	int max_depth = 5;
 
 	// Setup camera
 	camera cam;
 
-	// Add two spheres to the hittable list
-	std::shared_ptr<hittable> small = std::make_shared<sphere>(point3(0, 0, -1), 0.5);
-	std::shared_ptr<hittable> ground = std::make_shared<sphere>(point3(0, -100.5, -1), 100);
+	// Add spheres to the hittable list
+	std::shared_ptr<hittable> small = 
+		std::make_shared<sphere> (
+			point3(0, 0, -1), 0.5, std::make_shared<lambertian>(color(0.7, 0.3, 0.3))
+			);
+
+	std::shared_ptr<hittable> ground = 
+		std::make_shared<sphere>(
+			point3(0, -100.5, -1), 100 , std::make_shared<lambertian>(color(0.5, 0.7, 0.3))
+			);
+
+	std::shared_ptr<hittable> metal_right =
+		std::make_shared<sphere>(
+			point3(1, 0, -1), 0.5, std::make_shared<metal>(color(0.8, 0.6, 0.2))
+			);
+	std::shared_ptr<hittable> metal_left =
+		std::make_shared<sphere>(
+			point3(-1, 0, -1), 0.5, std::make_shared<metal>(color(0.8, 0.8, 0.8))
+			);
+
 	hittable_list world_list;
 	world_list.clear();
 
 	// The order in which objects are pushed into the vector matters when they overlap
 	// The last pushed object can overlap all those previously pushed.
 	world_list.add(ground);
+	world_list.add(metal_left);
+	world_list.add(metal_right);
 	world_list.add(small);
 
 	// Initialize a ppm image with max color value of 255.
@@ -54,7 +74,7 @@ int main()
 				double hor = ((double)j + random_double()) / (image_width - 1);
 
 				ray r = cam.get_ray(hor, ver);
-				pixel += diffuse_color(r, world_list, max_depth);
+				pixel += ray_color(r, world_list, max_depth);
 			}
 			write_color(std::cout, pixel, num_samples);
 		}

@@ -186,7 +186,7 @@ vec3 random_in_unit_sphere()
     }
 }
 
-#warning TODO: try a simple method
+
 vec3 random_unit_vector()
 {
     // Cylindrical coordinates - r, theta, z
@@ -205,4 +205,9 @@ vec3 random_in_hemisphere(const vec3& normal)
     if (dot(normal, rand) < 0)
         return -rand;
     return rand;
+}
+
+vec3 reflect(const vec3& incident_dir, const vec3& normal)
+{
+    return incident_dir - 2 * dot(incident_dir, normal) * normal;
 }

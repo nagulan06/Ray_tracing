@@ -7,6 +7,8 @@
 #include "vec3.h"
 #include "ray.h"
 
+class material;
+
 /*
 	struct hit_record
 	class hittable
@@ -20,6 +22,7 @@ struct hit_record
 	double t;
 	vec3 normal;
 	bool front_face;
+	std::shared_ptr<material> mat_ptr;
 
 	void set_face_normal(const vec3& outward_normal, const ray& r)
 	{
@@ -40,9 +43,11 @@ class sphere : public hittable
 {
 	point3 m_centre;
 	double m_radius;
+	std::shared_ptr<material> mat_ptr;
 public:
 	sphere() : m_centre(point3(0, 0, 0)), m_radius(0) {}
-	sphere(point3 cen, double radius) : m_centre(cen), m_radius(radius) {}
+	sphere(point3 cen, double radius, std::shared_ptr<material> mat) 
+		: m_centre(cen), m_radius(radius), mat_ptr(mat) {}
 
 	// getters
 	point3 centre() const { return m_centre; }
@@ -75,6 +80,7 @@ public:
 				rec.t = root;
 				vec3 outward_normal = unit(rec.hit_point - m_centre);
 				rec.set_face_normal(outward_normal, r);
+				rec.mat_ptr = mat_ptr;
 				return true;
 			}
 	
@@ -85,6 +91,7 @@ public:
 				rec.t = root;
 				vec3 outward_normal = unit(rec.hit_point - m_centre);
 				rec.set_face_normal(outward_normal, r);
+				rec.mat_ptr = mat_ptr;
 				return true;
 			}
 
