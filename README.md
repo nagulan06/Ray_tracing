@@ -9,3 +9,5 @@ Learning [Ray Tracing in One Weekend](https://raytracing.github.io/books/RayTrac
 <pre> Gamma corrected                                                  Hemispherical Scattering </pre>  
 ![gamma_corrected](https://user-images.githubusercontent.com/26850135/85186955-faf6a600-b269-11ea-9c41-12f0706203ed.png) ![hemispherical_scattering](https://user-images.githubusercontent.com/26850135/85186958-fe8a2d00-b269-11ea-8e14-5d70798722f5.png)  
 
+<pre> Tracing Reflection </pre>  
+![reflection](https://user-images.githubusercontent.com/26850135/85187018-79534800-b26a-11ea-9bef-ed4b7381d3d7.png)  
